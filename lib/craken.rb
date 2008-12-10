@@ -27,8 +27,8 @@ module Craken
     old = false
     `#{CRONTAB_EXE} -l`.each_line do |line|
       line.strip!
-      if old || line == "### #{APP_NAME} raketab"
-        old = line != "### #{APP_NAME} raketab end"
+      if old || line == "### #{APP_NAME} #{RAKETAB_RAILS_ENV} raketab"
+        old = line != "### #{APP_NAME} #{RAKETAB_RAILS_ENV} raketab end"
       else
         crontab << line
         crontab << "\n"
@@ -38,7 +38,7 @@ module Craken
   end
 
   def append_tasks(crontab, raketab)
-    crontab << "### #{APP_NAME} raketab\n"
+    crontab << "### #{APP_NAME} #{RAKETAB_RAILS_ENV} raketab\n"
     raketab.each_line do |line|
       line.strip!
       unless line =~ /^#/ || line.empty? # ignore comments and blank lines
@@ -51,7 +51,7 @@ module Craken
         crontab << "\n"
       end
     end
-    crontab << "### #{APP_NAME} raketab end\n"
+    crontab << "### #{APP_NAME} #{RAKETAB_RAILS_ENV} raketab end\n"
     crontab
   end
 
