@@ -168,4 +168,15 @@ describe Raketab do
        run '2nd', :on => :thursday
     end.tabs.should == "0 5 * * * 1st\n0 0 * * 4 2nd"
   end
+
+  it "should allow Cronos syntax for a job" do
+    Raketab.schedule { run('Cronos').daily.at('12pm') }.tabs.should == '0 12 * * * Cronos'
+  end
+
+  it "should allow multiple Cronos syntax jobs" do
+    Raketab.schedule do
+      run('Cronos_1st').at('5am')
+      run('Cronos_2nd').every(:Thursday)
+    end.tabs.should == "0 5 * * * Cronos_1st\n0 0 * * 4 Cronos_2nd"
+  end
 end

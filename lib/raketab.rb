@@ -1,5 +1,6 @@
 require "#{File.dirname(__FILE__)}/enumeration"
 require 'date'
+require 'cronos'
 
 class Raketab  
   Month   = enum %w[January February March April May June July August September October November December], 1
@@ -29,6 +30,12 @@ class Raketab
   end
 
   def run(command, options={})
+    if options.empty?
+      task = Cronos::TaskInterval.new(command).daily
+      @tabs << task 
+      return task
+    end
+
     month, wday, mday, hour, min = options[:month]   || options[:months]   || options[:mon], 
                                    options[:weekday] || options[:weekdays] || options[:wday], 
                                    options[:day]     || options[:days]     || options[:mday],

@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + "/../lib/enumeration"
+
 describe Enumeration do
   Weekday = enum %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
