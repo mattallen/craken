@@ -128,7 +128,16 @@ Here it will run every Thursday in September.  Ranges (inclusive and exclusive),
     cron.schedule 'first:day:q4 > /tmp/thing_to_do.log 2>&1',    :the => '1st', :months => 'October,November,December'
   end
 
-You can find all the variants in the spec for Raketab and pick and choose which is most natural for you.
+Another style is using the Cronos gem syntax. Cronos offers a chained method style similar to ActiveSupport time helpers.
+
+  Raketab.new do |cron|
+    cron.schedule('thing:to_do > /tmp/thing_to_do.log 2>&1').weekdays
+    cron.schedule('first:five:days > /tmp/thing_to_do.log 2>&1').days(1..5)
+    cron.schedule('first:day:q1 > /tmp/thing_to_do.log 2>&1').on_the('1st').of(:jan, :feb, :mar)
+    cron.schedule('first:day:q4 > /tmp/thing_to_do.log 2>&1').on_the('1st').of_months('October', 'November', 'December')
+  end
+
+You can find all the variants in the spec for Raketab and pick and choose which is most natural for you. See the Cronos gem for its variations at http://github.com/adzap/cronos
 
 = Running the Capistrano Script
 
