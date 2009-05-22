@@ -73,8 +73,7 @@ module Craken
   
   private
     def build_raketab_from_rb(file)
-      load file
-      Raketab.tabs
+      eval(File.new(file).read).tabs
     end
   
     def build_raketab_from_yml(file)
