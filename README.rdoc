@@ -60,6 +60,23 @@ The "magic" part of craken is the bit that crontab added:
 
   cd /home/thatguy/u/apps/foo/current && /usr/bin/rake --silent RAILS_ENV=production
 
+=== Special crontab string support
+
+An example line to add a rake task to be executed after reboot:
+
+  @reboot thinking_sphinx:start > /tmp/ts_startup.log 2>&1
+
+All special strings and their effects:
+[<tt>@reboot</tt>]    execute after reboot
+[<tt>@yearly</tt>]    every year
+[<tt>@annually</tt>]  every year hipster version
+[<tt>@monthly</tt>]   every month, or better known as: <i>No roll in the hay for you this time honey!</i>
+[<tt>@weekly</tt>]    just like every month but weekly
+[<tt>@daily</tt>]     like brushing your teeth
+[<tt>@midnight</tt>]  when the ghosts come out
+[<tt>@hourly</tt>]    whenever the long hand of your watch is at 12
+
+Read more about crontab special strings here: http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5
 == Other Formats
 
 You can also specify other types of files to describe +raketabs+.  You can have multiple formats and they 
