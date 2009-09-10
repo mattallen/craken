@@ -7,13 +7,6 @@ require 'spec/rake/spectask'
 desc 'Default: run unit tests.'
 task :default => :spec
 
-desc 'Test the craken plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
-
 desc 'Generate documentation for the craken plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
