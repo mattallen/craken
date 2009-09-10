@@ -21,6 +21,9 @@ module Craken
   # capistrano deployments
   APP_NAME          = ENV['app_name'] || (DEPLOY_PATH =~ /\/([^\/]*)\/releases\/\d*$/ ? $1 : File.basename(DEPLOY_PATH))
 
+  # see here: http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5
+  SPECIAL_STRINGS   = %w[@reboot @yearly @annually @monthly @weekly @daily @midnight @hourly]
+
   # strip out the existing raketab cron tasks for this project
   def load_and_strip
     crontab = ''
@@ -43,9 +46,15 @@ module Craken
       line.strip!
       unless line =~ /^#/ || line.empty? # ignore comments and blank lines
         sp = line.split
-        crontab << sp[0,5].join(' ')
+        if SPECIAL_STRINGS.include?(sp.first)
+          crontab << sp.shift
+          tasks = sp
+        else
+          crontab << sp[0,5].join(' ')
+          tasks = sp[5,sp.size]
+        end
         crontab << " cd #{DEPLOY_PATH} && #{RAKE_EXE} --silent RAILS_ENV=#{RAKETAB_RAILS_ENV}"
-        sp[5,sp.size].each do |task|
+        tasks.each do |task|
           crontab << " #{task}"
         end
         crontab << "\n"

@@ -69,6 +69,28 @@ EOS
       cron.should_not match(/# comment to ignore/)
       cron.should_not match(/# another comment to ignore/)
     end
+    
+    it "should not munge the eight crontab special strings" do
+raketab = <<EOS
+@reboot brush:teeth
+@yearly dont_forget_girlfriends:birthday
+@annually just_damn_remember:it
+@monthly do_some:sport
+@weekly get:stash
+@daily take:shower
+@midnight stop_working_on_os:projects
+@hourly drink:water
+EOS
+      cron = append_tasks(@crontab, raketab)
+      cron.should match(/@reboot (.*)/)
+      cron.should match(/@yearly (.*)/)
+      cron.should match(/@annually (.*)/)
+      cron.should match(/@monthly (.*)/)
+      cron.should match(/@weekly (.*)/)
+      cron.should match(/@daily (.*)/)
+      cron.should match(/@midnight (.*)/)
+      cron.should match(/@hourly (.*)/)
+    end
 
     it "should not munge the crontab time configuration" do
 raketab = <<EOS
